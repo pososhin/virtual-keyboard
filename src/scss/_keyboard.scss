@@ -1,0 +1,121 @@
+$width-keyboard: 98.9vw;
+$height-keyboard: 34.4vw;
+
+$height-row: calc(calc(var(--height-row) / 100) * $height-keyboard);
+
+$width-key: $height-row;
+$height-key: $height-row;
+
+.keyboard {
+  width: $width-keyboard;
+  height: $height-keyboard;
+  margin-top: 14.4%;
+  margin-left: 5px;
+  border: 1px black solid;
+  border-radius: 1.2vw;
+  //TODO DEBUG
+  // background-color: rgb(186 189 196);
+  background-color: rgba(186, 189, 196, 0.5);
+  display: grid;
+  grid-template-columns: 1vw 1fr 1vw;
+  grid-template-rows:
+    3.6%
+    $height-row 1fr
+    $height-row 1fr
+    $height-row 1fr
+    $height-row 1fr
+    $height-row 3.6%;
+  grid-template-areas:
+    ".   .    .  "
+    ".   r0   .  "
+    ".   .    .  "
+    ".   r1   .  "
+    ".   .    .  "
+    ".   r2   .  "
+    ".   .    .  "
+    ".   r3   .  "
+    ".   .    .  "
+    ".   r4   .  "
+    ".   .    .  ";
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: $width-keyboard * 0.008;
+  //   grid-gap: 10px;
+  //   justify-content: space-between;
+}
+
+$key-border: 2px solid rgb(75, 80, 88);
+$key-border-radius: 0.6vw;
+.key {
+  border: $key-border;
+  border-radius: $key-border-radius;
+  background-color: rgba(244, 245, 249, 0.5);
+  font-family: "Roboto", sans-serif;
+  font-size: 2vw;
+  color: #808080;
+  display: flex;
+  &.text-one,
+  &.text-double {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &.text-title {
+    display: flex;
+    padding: 0.3vw 0.5vw;
+    font-size: 1.5vw;
+    align-items: flex-end;
+    &.backspace,
+    &.enter,
+    &.shiftright,
+    &.delete {
+      justify-content: flex-end;
+    }
+  }
+  &.arrow {
+    align-items: center;
+    justify-content: center;
+    .img-arrow {
+      width: 60%;
+      height: 60%;
+      &.arrowleft {
+        background: url("../assets/icons/arrow-left.svg") no-repeat center;
+        background-size: contain;
+      }
+      &.arrowright {
+        background: url("../assets/icons/arrow-right.svg") no-repeat center;
+      }
+    }
+    &.double-arrow {
+      flex-direction: column;
+      border: unset;
+      .img-arrow {
+        width: 100%;
+        height: 100%;
+      }
+      .arrowup {
+        width: 100%;
+        height: 100%;
+        border: $key-border;
+        border-radius: $key-border-radius $key-border-radius 0 0;
+        background: url("../assets/icons/arrow-up.svg") no-repeat center;
+        background-size: contain;
+        // background: rgb(34, 139, 43);
+      }
+      .arrowdown {
+        width: 100%;
+        height: 100%;
+        border: $key-border;
+        border-radius: 0 0 $key-border-radius $key-border-radius;
+        background: url("../assets/icons/arrow-down.svg") no-repeat center;
+        background-size: contain;
+      }
+    }
+  }
+  &.pressed {
+    background: black;
+  }
+}
