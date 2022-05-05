@@ -1,5 +1,4 @@
 import { l_ } from "./locale";
-
 class Key {
   constructor(props) {
     this._pressed = false;
@@ -59,61 +58,15 @@ class Key {
     // console.log("up", this._code, this.pressed);
     this.pressed = false;
   }
-  addEventListener(key){
+  addEventListener(key=this) {
     key._element.addEventListener("mousedown", (_) => {
       key.pressed = true;
     });
     key._element.addEventListener("mouseup", (_) => {
       key.pressed = false;
     });
-  }ss
+  }
+  ss;
 }
 
-class KeyArrow extends Key {
-  constructor(props) {
-    super(props);
-    this._element.classList.add("arrow");    
-    if(props.code==='ArrowLeft' || props.code==='ArrowRight'){
-      const div = document.createElement('div');
-      div.classList.add('img-arrow');
-      div.classList.add(props.code.toLowerCase());
-      this._element.append(div);
-    } 
-  }
-}
-
-class KeyArrowUpDown extends KeyArrow {
-  constructor(props){
-    super(props);
-    this.keyUp = new KeyArrow({ title: "", code: props.code[0] });
-    this.keyUp.element.classList.add(props.code[0].toLowerCase())
-    this.keyDown = new KeyArrow({ title: "", code: props.code[1] });
-    this.keyDown.element.classList.add(props.code[1].toLowerCase())
-
-    if(typeof props.code!='string') {
-      this._element.classList.add('double-arrow')
-      this._element.append(this.keyUp.element);
-      this._element.append(this.keyDown.element);
-      // const divUp = document.createElement('div');
-      // const div = document.createElement('div');
-      // div.classList.add('img-arrow');
-      // div.classList.add('img-arrow-'+props.code[0].toLowerCase());
-      // divUp.append(div)
-      // divUp.classList.add(props.code[0].toLowerCase())
-      // this._element.append(divUp);
-      
-      // const divDown = document.createElement('div');
-      // const div2 = document.createElement('div');
-      // div2.classList.add('img-arrow');
-      // div2.classList.add('img-arrow-'+props.code[0].toLowerCase());
-      // divDown.append(div2)
-      // divDown.classList.add(props.code[1].toLowerCase());
-      // this._element.append(divDown);
-    }
-  }
-  addEventListener(key){
-
-  }
-}
-
-export {Key,KeyArrow,KeyArrowUpDown};
+export default Key;

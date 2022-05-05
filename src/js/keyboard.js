@@ -1,4 +1,6 @@
-import {Key,KeyArrow,KeyArrowUpDown} from "./key.js";
+import Key from "./key.js";
+import KeyArrow from "./keyArrow.js";
+import KeyArrowUpDown from "./keyArrowUpDown";
 const rows = [
   [
     {
@@ -268,7 +270,11 @@ class Keyboard {
       r.style.gridArea = "r" + i;
       let colWidth = "";
       Array.from(rows[i], (key, j) => {        
-        if (key.key.code) this._listeners.set(key.key.code, key.key);
+        if (typeof key.key.code !=='string') {
+          this._listeners.set(key.key.code[0], key.key);
+          this._listeners.set(key.key.code[1], key.key);
+        }
+        else if (key.key.code) this._listeners.set(key.key.code, key.key);
         colWidth += key.width + "fr ";
         r.append(key.key.element);
       });
@@ -291,7 +297,6 @@ document.addEventListener("keydown", function (event) {
   if (keyboard.listeners.has(event.code))
     keyboard.listeners.get(event.code).down(event);
   event.preventDefault();
-  console.log(event.code);
 });
 document.addEventListener("keyup", function (event) {
   event.preventDefault();
