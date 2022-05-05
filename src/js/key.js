@@ -2,6 +2,8 @@ import { l_ } from "./locale";
 class Key {
   constructor(props) {
     this._pressed = false;
+    this._pressedKey = false;
+    this._pressedMouse = false;
     this._element = document.createElement("div");
     this._element.classList.add("key");
     this._code = props.code || null;
@@ -36,37 +38,49 @@ class Key {
   get code() {
     return this._code;
   }
-  get pressed() {
-    return this._pressed;
-  }
-  set pressed(p) {
-    this._pressed = p;
-    console.log("press", this._code, this.pressed, p);
-    if (this._pressed) {
+  get pressed() { return this._pressed; }
+  get pressedKey() { return this._pressedKey; }
+  get pressedMouse() { return this._pressedMouse; }
+
+  pressed() {
+    if (this.pressedKey || this._pressedMouse) {
       this._element.classList.add("pressed");
     } else {
       this._element.classList.remove("pressed");
     }
-    return this._pressed;
   }
+
+  set pressedKey(p) {  this._pressedKey = p; this.pressed(); return this._pressed; }
+  set pressedMouse(p) {  this._pressedMouse = p; this.pressed(); return this._pressed; }
+
   down() {
-    if (this.pressed) return;
-    this.pressed = true;
+    console.log('s')
+    if (this.pressedKey) return;
+    this.pressedKey = true;    
   }
   up() {
-    if (!this.pressed) return;
-    // console.log("up", this._code, this.pressed);
-    this.pressed = false;
+    if (!this.pressedKey) return;
+    this.pressedKey= false;
   }
+
   addEventListener(key=this) {
     key._element.addEventListener("mousedown", (_) => {
-      key.pressed = true;
+      key.pressedMouse = true;
+      this.pressed();
     });
     key._element.addEventListener("mouseup", (_) => {
-      key.pressed = false;
+      key.pressedMouse = false;
+      this.pressed();
     });
-  }
-  ss;
+    key._element.addEventListener("mouseenter", (e) => {
+      key.pressedMouse = e.buttons%2==1;
+      this.pressed();
+    });
+    key._element.addEventListener("mouseleave", (e) => {
+      key.pressedMouse = false;
+      this.pressed();
+    });
+  }  
 }
 
 export default Key;

@@ -6,6 +6,10 @@ $height-row: calc(calc(var(--height-row) / 100) * $height-keyboard);
 $width-key: $height-row;
 $height-key: $height-row;
 
+@mixin mixin-pressed {
+  background: forestgreen;
+}
+
 .keyboard {
   width: $width-keyboard;
   height: $height-keyboard;
@@ -87,6 +91,7 @@ $key-border-radius: 0.6vw;
       }
       &.arrowright {
         background: url("../assets/icons/arrow-right.svg") no-repeat center;
+        background-size: contain;
       }
     }
     &.double-arrow {
@@ -113,9 +118,13 @@ $key-border-radius: 0.6vw;
         background: url("../assets/icons/arrow-down.svg") no-repeat center;
         background-size: contain;
       }
+      .pressed {
+        @include mixin-pressed;
+      }
     }
   }
-  &.pressed {
-    background: black;
-  }
+}
+
+.pressed {
+  @include mixin-pressed;
 }

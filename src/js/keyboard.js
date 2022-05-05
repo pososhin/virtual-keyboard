@@ -298,6 +298,7 @@ document.addEventListener("keydown", function (event) {
     keyboard.listeners.get(event.code).down(event);
   event.preventDefault();
 });
+
 document.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (keyboard.listeners.has(event.code))

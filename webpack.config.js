@@ -18,7 +18,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
-      title: "Virtual Keyboard"
+      favicon:'./src/assets/icons/flaticons96.png',
     }),
 
     // Add your plugins here
@@ -52,7 +52,6 @@ const config = {
 module.exports = () => {
   if (isProduction) {
     config.mode = "production";
-
     config.plugins.push(new MiniCssExtractPlugin());
   } else {
     config.mode = "development";
