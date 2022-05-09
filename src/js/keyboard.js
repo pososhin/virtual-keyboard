@@ -1,6 +1,7 @@
-import Key from "./key.js";
+import {Key} from "./key.js";
 import KeyArrow from "./keyArrow.js";
 import KeyArrowUpDown from "./keyArrowUpDown";
+import {KeyShift,KeyCapsLock,KeyAlt} from "./keyShift";
 const rows = [
   [
     {
@@ -152,7 +153,7 @@ const rows = [
     },
   ],
   [
-    { key: new Key({ title: "caps lock", code: "CapsLock" }), width: 1.8 },
+    { key: new KeyCapsLock({ title: "caps lock", code: "CapsLock" }), width: 1.8 },
     {
       key: new Key({ name: { en: ["A"], ru: ["Ф"] }, code: "KeyA" }),
       width: 1,
@@ -200,7 +201,7 @@ const rows = [
     { key: new Key({ title: "enter", code: "Enter" }), width: 1.8 },
   ],
   [
-    { key: new Key({ title: "shift", code: "ShiftLeft" }), width: 2.4 },
+    { key: new KeyShift({ title: "shift", code: "ShiftLeft" }), width: 2.4 },
     {
       key: new Key({ name: { en: ["Z"], ru: ["Я"] }, code: "KeyZ" }),
       width: 1,
@@ -241,18 +242,18 @@ const rows = [
       key: new Key({ name: { en: ["?", "/"], ru: [",", "."] }, code: "Slash" }),
       width: 1,
     },
-    { key: new Key({ title: "shift", code: "ShiftRight" }), width: 2.4 },
+    { key: new KeyShift({ title: "shift", code: "ShiftRight" }), width: 2.4 },
   ],
   [
     { key: new Key({ title: "ctrl", code: "ControlLeft" }), width: 1 },
     { key: new Key({ title: "win", code: "MetaLeft" }), width: 1 },
-    { key: new Key({ title: "alt", code: "AltLeft" }), width: 1.3 },
+    { key: new KeyAlt({ title: "alt", code: "AltLeft" }), width: 1.3 },
     { key: new Key({ title: "", code: "Space" }), width: 5.5 },
     { key: new Key({ title: "alt", code: "AltRight" }), width: 1.3 },
     { key: new Key({ title: "ctrl", code: "ControlRight" }), width: 1 },
-    { key: new KeyArrow({ title: "", code: "ArrowLeft" }), width: 1 },
+    { key: new KeyArrow({ title: "◀", code: "ArrowLeft" }), width: 1 },
     { key: new KeyArrowUpDown({ title: "", code: ["ArrowUp", "ArrowDown"] }), width: 1 },
-    { key: new KeyArrow({ title: "", code: "ArrowRight" }), width: 1 },
+    { key: new KeyArrow({ title: "▶", code: "ArrowRight" }), width: 1 },
     { key: new Key({ title: "del", code: "Delete" }), width: 1 },
   ],
 ];
@@ -291,18 +292,19 @@ class Keyboard {
   }
 }
 
-const keyboard = new Keyboard();
 
 document.addEventListener("keydown", function (event) {
   if (keyboard.listeners.has(event.code))
-    keyboard.listeners.get(event.code).down(event);
+  keyboard.listeners.get(event.code).down(event);
   event.preventDefault();
 });
 
 document.addEventListener("keyup", function (event) {
   event.preventDefault();
   if (keyboard.listeners.has(event.code))
-    keyboard.listeners.get(event.code).up(event);
+  keyboard.listeners.get(event.code).up(event);
+  event.preventDefault();
 });
 
+const keyboard = new Keyboard();
 export { keyboard };

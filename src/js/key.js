@@ -1,35 +1,32 @@
-import { l_ } from "./locale";
+import { l_ } from "./locale.js";
 class Key {
   constructor(props) {
     this._pressed = false;
     this._pressedKey = false;
     this._pressedMouse = false;
+    this.name = props.name || null;
+    this.title = props.title || null;
     this._element = document.createElement("div");
     this._element.classList.add("key");
     this._code = props.code || null;
-    if (props.name && props.name[l_()].length == 2) {
-      const text1 = document.createElement("div");
-      text1.classList.add("text-1");
-      text1.textContent = props.name[l_()][0];
-      this._element.append(text1);
-      const text2 = document.createElement("div");
-      text2.classList.add("text-2");
-      text2.textContent = props.name[l_()][1];
-      this._element.append(text2);
-      this._element.classList.add("text-double");
-    } else if (props.name && props.name[l_()].length == 1) {
-      this._element.classList.add("text-one");
-      const text1 = document.createElement("div");
-      text1.classList.add("text-1");
-      text1.textContent = props.name[l_()][0];
-      this._element.append(text1);
-    } else if (props.title) {
-      this._element.classList.add("text-title");
-      const text1 = document.createElement("div");
-      this._element.classList.add(this.code.toLowerCase());
-      text1.textContent = props.title;
-      this._element.append(text1);
-    }
+    Array.from(["en", "ru"], (l) => {
+      if (props.name) {
+        for (let i = 0; i <= props.name[l].length; i++) {
+          this._element.classList.add("text-one");
+          const text1 = document.createElement("div");
+          text1.classList.add("text-" + i, "locale", l);
+          text1.textContent = props.name[l][i];
+          if (l !== l_()) text1.style.display = "none";
+          this._element.append(text1);
+        }
+      } else if (props.title && l === "en") {
+        this._element.classList.add("text-title");
+        const text1 = document.createElement("div");
+        this._element.classList.add(this.code.toLowerCase());
+        text1.textContent = props.title;
+        this._element.append(text1);
+      }
+    });
     this.addEventListener(this);
   }
   get element() {
@@ -38,32 +35,50 @@ class Key {
   get code() {
     return this._code;
   }
-  get pressed() { return this._pressed; }
-  get pressedKey() { return this._pressedKey; }
-  get pressedMouse() { return this._pressedMouse; }
-
-  pressed() {
-    if (this.pressedKey || this._pressedMouse) {
-      this._element.classList.add("pressed");
-    } else {
-      this._element.classList.remove("pressed");
-    }
+  get pressed() {
+    return this._pressed;
+  }
+  get pressedKey() {
+    return this._pressedKey;
+  }
+  get pressedMouse() {
+    return this._pressedMouse;
   }
 
-  set pressedKey(p) {  this._pressedKey = p; this.pressed(); return this._pressed; }
-  set pressedMouse(p) {  this._pressedMouse = p; this.pressed(); return this._pressed; }
+  pressed() {
+    if (this._pressed != (this.pressedKey || this._pressedMouse)) {      
+      this._pressed = this.pressedKey || this._pressedMouse;      
+      if (this._pressed) {
+        if(Key.listener) Key.listener.pressKey(this);
+        this._element.classList.add("pressed");
+      } else {
+        this._element.classList.remove("pressed");
+      }
+    }
+    return this._pressed;
+  }
+
+  set pressedKey(p) {
+    this._pressedKey = p;
+    this.pressed();
+    return this._pressed;
+  }
+  set pressedMouse(p) {
+    this._pressedMouse = p;
+    this.pressed();
+    return this._pressed;
+  }
 
   down() {
-    console.log('s')
     if (this.pressedKey) return;
-    this.pressedKey = true;    
+    this.pressedKey = true;
   }
   up() {
     if (!this.pressedKey) return;
-    this.pressedKey= false;
+    this.pressedKey = false;
   }
 
-  addEventListener(key=this) {
+  addEventListener(key = this) {
     key._element.addEventListener("mousedown", (_) => {
       key.pressedMouse = true;
       this.pressed();
@@ -73,14 +88,24 @@ class Key {
       this.pressed();
     });
     key._element.addEventListener("mouseenter", (e) => {
-      key.pressedMouse = e.buttons%2==1;
+      key.pressedMouse = e.buttons % 2 == 1;
       this.pressed();
     });
-    key._element.addEventListener("mouseleave", (e) => {
+    key._element.addEventListener("mouseleave", (_) => {
       key.pressedMouse = false;
       this.pressed();
     });
-  }  
+  }
 }
 
-export default Key;
+Key.shiftPress = false;
+Key.altPress = false;
+Key.capsLockPress = false;
+Key.shiftUp = false;
+Key.listener = undefined;
+
+
+// Key.shiftUp = shiftUp;
+
+export { Key };
+// export { Key, shiftPress, altPress, capsLockPress, shiftUp };

@@ -5,9 +5,12 @@
 .keyboard {
   width: $width-keyboard;
   height: $height-keyboard;
+  // margin-left: 5px;
   border: 1px black solid;
   border-radius: 1.2vw;
-  background-color: rgb(186 189 196);
+  //TODO DEBUG
+  // background-color: rgb(186 189 196);
+  background-color: rgba(186, 189, 196, 0.5);
   display: grid;
   grid-template-columns: 1vw 1fr 1vw;
   grid-template-rows:
@@ -35,15 +38,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-gap: $width-keyboard * 0.008;
+  //   grid-gap: 10px;
+  //   justify-content: space-between;
 }
 
-$key-border-color: rgb(75, 80, 88);
-$key-border: 2px solid $key-border-color;
+$key-border: 2px solid rgb(75, 80, 88);
 $key-border-radius: 0.6vw;
 .key {
   border: $key-border;
   border-radius: $key-border-radius;
-  background-color: rgba(244, 245, 249);
+  background-color: rgba(244, 245, 249, 0.5);
   font-family: "Roboto", sans-serif;
   font-size: 2vw;
   color: #808080;
@@ -69,7 +73,18 @@ $key-border-radius: 0.6vw;
   &.arrow {
     align-items: center;
     justify-content: center;
-    padding: 0;
+    .img-arrow {
+      width: 60%;
+      height: 60%;
+      &.arrowleft {
+        background: url("../assets/icons/arrow-left.svg") no-repeat center;
+        background-size: contain;
+      }
+      &.arrowright {
+        background: url("../assets/icons/arrow-right.svg") no-repeat center;
+        background-size: contain;
+      }
+    }
     &.double-arrow {
       flex-direction: column;
       border: unset;
@@ -82,8 +97,8 @@ $key-border-radius: 0.6vw;
         height: 100%;
         border: $key-border;
         border-radius: $key-border-radius $key-border-radius 0 0;
-        // background: url("../assets/icons/arrow-up.svg") no-repeat center;
-        // background-size: contain;
+        background: url("../assets/icons/arrow-up.svg") no-repeat center;
+        background-size: contain;
         // background: rgb(34, 139, 43);
       }
       .arrowdown {
@@ -91,32 +106,13 @@ $key-border-radius: 0.6vw;
         height: 100%;
         border: $key-border;
         border-radius: 0 0 $key-border-radius $key-border-radius;
-        // background: url("../assets/icons/arrow-down.svg") no-repeat center;
-        // background-size: contain;
+        background: url("../assets/icons/arrow-down.svg") no-repeat center;
+        background-size: contain;
       }
       .pressed {
         @include mixin-pressed;
       }
     }
-  }
-  &.capslock {
-    position: relative;
-    .diode {
-      position: absolute;
-      top: 0.7vw;
-      left: 0.7vw;
-      width: 0.5vw;
-      height: 0.5vw;
-      background: #34cf34;
-      border-radius: 50%;
-      &.off {
-        background:$key-border-color;
-      }
-    }
-  }
-  &:not(.pressed):hover {
-    cursor: pointer;
-    background-color: rgba(244, 245, 249, 0.8);
   }
 }
 

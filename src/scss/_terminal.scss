@@ -1,0 +1,10 @@
+.terminal{
+  min-height: $height-keyboard;
+  width: $width-keyboard;
+  .textarea{
+    min-height: $height-keyboard;
+    width: $width-keyboard;
+    font-family: "Roboto", sans-serif;
+    font-size: 2.5vw;
+  }
+}

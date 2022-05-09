@@ -2,3 +2,11 @@
     // --height-row: 16.8%;
     --height-row: 16.8;
 }
+
+$width-keyboard: 98.9vw;
+$height-keyboard: 34.4vw;
+
+$height-row: calc(calc(var(--height-row) / 100) * $height-keyboard);
+
+$width-key: $height-row;
+$height-key: $height-row;
